@@ -58,5 +58,7 @@ int main()
     cout << endl
          << "Printing Tree: " << endl;
     PrintTree(root);
+
+    delete root;
     return 0;
 }
