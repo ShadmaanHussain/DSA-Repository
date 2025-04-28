@@ -35,6 +35,16 @@ class Heap {
         }
     }
     
+    void upHeap(int index) {
+        if(index == 0) return;
+        
+        int parent = this->parent(index);
+        if(heap[parent] > heap[index]) {
+            swap(heap[parent], heap[index]);
+            upHeap(parent);
+        }
+    }
+    
     public:
     void insertIteratively(int item) {
         heap.push_back(item);
@@ -47,11 +57,15 @@ class Heap {
         }
     }
     
+    void insert(int item) {
+        heap.push_back(item);
+        upHeap(heap.size() - 1);
+    }
+    
     int retreive() {
         int ans = heap[0];
         swap(heap[0], heap[heap.size()-1]);
         heap.pop_back();
-        
         downHeap(0);
         return ans;
     }
@@ -68,7 +82,7 @@ int main() {
     vector<int> list {10, 2, 5, 8, 12, 1};
 	Heap* h = new Heap();
 	for(int i : list) {
-	    h->insertIteratively(i);
+	    h->insert(i);
 	}
 	
 	h->print();
