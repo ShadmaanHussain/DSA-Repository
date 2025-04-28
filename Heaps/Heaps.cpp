@@ -4,33 +4,56 @@ using namespace std;
 class Heap {
     vector<int> heap;
     
+    int parent(int index) {
+        return (index - 1) / 2;
+    }
+    
+    int leftChild(int index) {
+        return 2*index + 1;
+    }
+    
+    int rightChild(int index) {
+        return 2*index + 2;
+    }
+    
+    void downHeap(int index) {
+        int left = leftChild(index);
+        int right = rightChild(index);
+        int smallest = index;
+        
+        if(left < heap.size() && heap[left] < heap[smallest]) {
+            smallest = left;
+        }
+        
+        if(right < heap.size() && heap[right] < heap[smallest]) {
+            smallest = right;
+        }
+        
+        if(smallest != index) {
+            swap(heap[smallest], heap[index]);
+            downHeap(smallest);
+        }
+    }
+    
     public:
-    void insert(int item) {
+    void insertIteratively(int item) {
         heap.push_back(item);
         int n = heap.size();
         
-        if(n == 1) return;
-        
         int i = n-1;
-        while(heap[(i-1)/2] > heap[i]) {
-            swap(heap[(i-1)/2],heap[i]);
-            i = (i-1)/2;
+        while(heap[parent(i)] > heap[i]) {
+            swap(heap[parent(i)], heap[i]);
+            i = parent(i);
         }
     }
     
     int retreive() {
-        int n = heap.size();
-        if(n == 0) return -1;
-        
         int ans = heap[0];
-        
-        swap(heap[0], heap[n-1]);
+        swap(heap[0], heap[heap.size()-1]);
         heap.pop_back();
         
-        int i = 0;
-        
-        while(heap.size() > 0 &&  )
-        
+        downHeap(0);
+        return ans;
     }
     
     void print() {
@@ -45,8 +68,11 @@ int main() {
     vector<int> list {10, 2, 5, 8, 12, 1};
 	Heap* h = new Heap();
 	for(int i : list) {
-	    h->insert(i);
+	    h->insertIteratively(i);
 	}
 	
+	h->print();
+	cout << endl;
+	cout << h->retreive() << endl;
 	h->print();
 }
